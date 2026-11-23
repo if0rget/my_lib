@@ -1,0 +1,5 @@
+server/internal/web/dist/
+node_modules/
+.env
+*.local
+/server/tmp/
