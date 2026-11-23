@@ -1,0 +1,19 @@
+version: "2"
+
+linters:
+  # 默认集合：errcheck、govet、ineffassign、staticcheck、unused
+  default: standard
+  enable:
+    - bodyclose   # HTTP 响应体必须关闭
+    - errorlint   # 错误比较用 errors.Is / errors.As
+    - misspell    # 英文拼写
+    - revive      # 命名、导出标识符注释等风格检查
+
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/if0rget/my_lib

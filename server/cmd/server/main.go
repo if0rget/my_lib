@@ -1,3 +1,4 @@
+// Command server 是图书管理系统的后端入口。
 package main
 
 import (
