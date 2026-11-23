@@ -7,9 +7,13 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	// .env 不存在时跳过，直接使用系统环境变量
+	_ = godotenv.Load()
+
 	r := gin.Default()
 
 	// 健康检查：部署时给容器 / 负载均衡探活用
