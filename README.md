@@ -28,7 +28,7 @@
 ```bash
 make db        # 启动 PostgreSQL（目前后端还没用到）
 make server    # 启动后端 http://localhost:8080
-cd web && pnpm install
+pnpm -C web install   # 首次需要安装前端依赖
 make web       # 启动前端 http://localhost:5173，/api 自动转发到后端
 ```
 
