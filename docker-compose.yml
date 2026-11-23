@@ -1,0 +1,20 @@
+# 开发用：只起 PostgreSQL
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: my_lib
+      POSTGRES_PASSWORD: my_lib
+      POSTGRES_DB: my_lib
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U my_lib"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:

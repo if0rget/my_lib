@@ -2,7 +2,7 @@
 
 图书管理系统，一个学习 Go 的练手项目。后端 Go，前端 React。
 
-> 当前状态：只有项目文档，代码尚未开始。
+> 当前状态：前后端项目已初始化（后端只有 `/healthz` 和 `/api/v1/ping`，前端是 Vite 默认页面），业务功能尚未开始。
 
 ## 功能
 
@@ -20,6 +20,19 @@
 | 登录鉴权 | JWT + bcrypt |
 | 前端 | React 19 · TypeScript · Vite · Ant Design 5 · TanStack Query |
 | 部署 | 前端 `embed` 进后端，单个镜像 + Docker Compose |
+
+## 本地运行
+
+需要 Go 1.27+、Node 22+、pnpm、Docker。
+
+```bash
+make db        # 启动 PostgreSQL（目前后端还没用到）
+make server    # 启动后端 http://localhost:8080
+cd web && pnpm install
+make web       # 启动前端 http://localhost:5173，/api 自动转发到后端
+```
+
+验证后端：`curl localhost:8080/api/v1/ping`
 
 ## 目录规划
 
