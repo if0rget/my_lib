@@ -4,15 +4,38 @@ package main
 import (
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+
+	"github.com/if0rget/my_lib/server/internal/config"
+	"github.com/if0rget/my_lib/server/internal/database"
 )
 
 func main() {
 	// .env 不存在时跳过，直接使用系统环境变量
 	_ = godotenv.Load()
+
+	cfg, err := config.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := database.Migrate(cfg.DatabaseURL); err != nil {
+		log.Fatal(err)
+	}
+
+	db, err := database.Open(cfg.DatabaseURL)
+	if err != nil {
+		log.Fatal(err)
+	}
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer func() {
+		_ = sqlDB.Close() // 进程退出时关闭数据库连接池
+	}()
 
 	r := gin.Default()
 
@@ -27,11 +50,7 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"code": 0, "message": "ok", "data": "pong"})
 	})
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-	if err := r.Run(":" + port); err != nil {
+	if err := r.Run(":" + cfg.Port); err != nil {
 		log.Fatal(err)
 	}
 }
